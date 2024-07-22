@@ -15,7 +15,7 @@ USE practice_sql; #스키마의 글자 굵기가 변경이 됨
 -- 테이블 생성
 CREATE TABLE example_table (
 	example_column1 INT,
-    ecample_column2 BOOLEAN
+    example_column2 BOOLEAN
 );
 
 -- 컬럼 데이터 타입
@@ -36,7 +36,6 @@ CREATE TABLE example_table (
     date_column DATE,
     -- DATETIME : 날짜 및 시간
     datetime_column DATETIME
-    
 );
 
 -- 사용자 생성
@@ -45,3 +44,39 @@ CREATE TABLE example_table (
  CREATE USER 'developer'@'192.168.1.101' IDENTIFIED BY 'P!ssw0rd'; # 각자 계정에서 들어갈 수 있는 루트가 다르기 때문에 같은 주소로 계정 생성이 가능하다.
  CREATE USER 'developer'@'%' IDENTIFIED BY 'P!ssw0rd'; # %가 와일드 카드이기 때문에 어떠한 계정에서든지 접근 가능하게 만들어줄 수 있다.
 
+-- DROP : 데이터 구조(스키마)를 삭제하는 명령어
+-- DROP 스키마명 
+
+-- 사용자 삭제
+ DROP USER 'developer'@'%'; # 위치까지 같이 작성하기
+
+-- 테이블 삭제
+-- 만약에 해당 테이블을 참조하고 있는 다른 테이블이 존재하면 테이블 삭제가 불가능
+ DROP TABLE example_table;
+ 
+-- 데이터베이스 삭제
+ DROP DATABASE practice_sql;
+ 
+-- ALTER : 구조를 변경하는 명령어
+
+-- 테이블의 컬럼 추가
+ ALTER TABLE example_table
+ ADD example_column3 VARCHAR(10);
+ 
+-- 테이블 컬럼 삭제
+ ALTER TABLE example_table
+ DROP COLUMN example_column3;
+ 
+-- 테이블 컬럼 타입 수정
+ALTER TABLE example_table
+MODIFY COLUMN example_column2 TEXT;
+
+-- 테이블 컬럼 전체 수정
+ALTER TABLE example_table
+CHANGE example_column1 column1 VARCHAR(20);
+
+-- 데이터베이스 문자셋 수정
+ALTER DATABASE practice_sql DEFAULT CHARACTER SET utf8;
+
+ 
+ 
