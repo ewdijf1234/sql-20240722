@@ -76,4 +76,102 @@ WHERE amount <= 1200000;
 SELECT * FROM transaction
 WHERE amount > 1200000;
 
+SELECT * FROM transaction
+WHERE amount >= 1200000;
 
+ALTER TABLE transaction
+ADD complete BOOLEAN;
+
+UPDATE transaction SET complete = true
+WHERE  (transaction_number % 3) = 1;
+
+UPDATE transaction SET complete = false
+WHERE (transaction_number % 3) = 2;
+
+SELECT * FROM transaction;
+
+UPDATE transaction SET note = null
+WHERE transaction_number = 6;
+
+-- <=> : 좌항과 우항이 모두 null이면 true
+SELECT * FROM transaction
+WHERE note <=> complete;
+
+-- IS : 좌항이 우항과 같으면 true (키워드)
+-- IS NOT : 좌항이 우항과 다르면 true (키워드)
+SELECT * FROM transaction
+WHERE complete IS TRUE;
+
+SELECT * FROM transaction
+WHERE complete IS NULL;
+
+SELECT * FROM transaction
+WHERE complete IS NOT NULL;
+
+-- BETWEEN a AND b : 좌항이 a보다 크거나 같으면서 b보다 작거나 같으면 true
+-- NOT BETWEEN a AND b : 좌항이 a보다 작거나 b보다 크면 true
+SELECT * FROM transaction
+WHERE transaction_date BETWEEN '2024-07-15' AND '2024-07-20';
+
+SELECT * FROM transaction
+WHERE transaction_date NOT BETWEEN '2024-07-15' AND '2024-07-20';
+
+-- IN() : 주어진 리스트 중에 하나라도 일치하면 true
+-- NOT IN() : 주어진 리스트 중에 하나도 일치하지 않으면 true
+SELECT * FROM transaction
+WHERE breakdown IN('노트북', '책상'); #breakdown의 데이터에 책상과 노트북의 값만 출력된다.
+
+-- 논리연산자
+
+-- AND (&&) : 좌항과 우항이 모두 true이면 true
+SELECT * FROM transaction
+WHERE transaction_type = '판매' AND amount >= 1500000;
+
+-- OR (||) : 좌항과 우항 중 하나라도 true이면 true
+SELECT * FROM transaction
+WHERE transaction_date >= '2024-07-15' OR transaction_type = '판매';
+
+-- XOR : 좌항과 우항이 서로 다르면 true
+SELECT * FROM transaction
+WHERE transaction_date >= '2024-07-15' XOR transaction_type = '판매';
+ # transaction_date >= '2024-07-15' AND transaction_type != '판매'; 동일한 형태
+ # transaction_date < '2024-07-15' AND transaction_type = '판매'; 동일한 형태
+ 
+ -- LIKE 연산자 : 문자열을 패턴을 기준을 비교하고자 할때 사용
+ -- % : 임의의 개수(0~무한대)의 문자 표현
+ -- _ : 임의의 한 개 문자 표현
+SELECT * FROM transaction
+WHERE transaction_date LIKE '2024-07-%';
+
+SELECT * FROM transaction
+WHERE transaction_date LIKE '2024-07-_'; # 문자의 개수가 하나만 표현하며 한자리 수만이 표현이 되어지기 때문에 출력이 되지 않는다.
+
+SELECT * FROM transaction
+WHERE breakdown LIKE '의%';
+
+SELECT * FROM transaction
+WHERE transaction_date LIKE '%-10'; 
+
+SELECT * FROM transaction
+WHERE transaction_date LIKE '2024-__-13';
+ 
+ -- 정렬
+ -- ORDER BY : 조회 결과를 특정 컬럼기준으로 정렬
+ -- ASC : 오름차순 정렬 / DESC : 내림차순 정렬
+ SELECT * FROM transaction
+ ORDER BY amount ASC;
+ 
+ SELECT * FROM transaction
+ ORDER BY amount DESC;
+ 
+ SELECT * FROM transaction
+ ORDER BY tax, amount DESC; # 키워드를 안붙이면 자동으로 오름차순 정렬이 된다. >> tax에 대해서는 오름차순, 동일한 구간에서는 amount 기준으로 대해서는 내림차순으로 정렬된다.
+ 
+ SELECT * FROM transaction
+ ORDER BY amount DESC, tax; # amount에 대한 DESC 작업을 한 후, 동일한 값이 있을 경우 tax를 기준으로 오름차순 정렬을 한다.
+ 
+ -- 중복제거
+ -- DISTINCT : SELECT 결과 테이블에서 컬럼의 조합의 중복을 제거하여 출력
+ SELECT DISTINCT breakdown FROM transaction; # breakdown만 조회
+ SELECT DISTINCT breakdown, amount FROM transaction; # breakdown과 amount 값에서 중복된 값을 조회하고 같이 조회된다.
+ 
