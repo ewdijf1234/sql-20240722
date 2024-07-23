@@ -78,5 +78,6 @@ CHANGE example_column1 column1 VARCHAR(20);
 -- 데이터베이스 문자셋 수정
 ALTER DATABASE practice_sql DEFAULT CHARACTER SET utf8;
 
+
  
  
