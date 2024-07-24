@@ -28,6 +28,7 @@ UPDATE not_null_table SET not_null_column = null;
 
 -- PRIMARY KEY 제약조건 : 특정 컬럼을 기본키로 지정
 -- (INSERT, UPDATE)에 영향을 미친다.
+-- UNIQUE + PRIMARY KEY를 같이 사용하면 인덱스가 생성 , 정렬 되어 효율성을 증가 시킨다.
 CREATE TABLE key_table (
 	primary_column INT PRIMARY KEY,
     surrogate_column INT NOT NULL UNIQUE
